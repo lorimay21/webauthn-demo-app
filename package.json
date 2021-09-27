@@ -16,7 +16,8 @@
     "monaca:debug": "npm run watch",
     "dev": "webpack-serve --open",
     "build": "webpack --mode production",
-    "watch": "webpack --watch --mode production"
+    "watch": "webpack --watch --mode production",
+    "deploy": "sh deploy.sh"
   },
   "cordova": {
     "plugins": {
