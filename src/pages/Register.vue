@@ -70,7 +70,7 @@ export default {
       emailAddress: "",
       relyingParty: {
         name: "Webauthn Demo App",
-        id: "https://lorimay21.github.io/webauthn-demo-app/",
+        id: "lorimay21.github.io",
       },
       attachment: "any",
       attestation: "none",
