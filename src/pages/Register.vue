@@ -8,48 +8,14 @@
         <div>
           <div>
             <label>
-              Username
+              Username *
               <input v-model="inputData.username" />
             </label>
           </div>
           <div>
             <label>
-              Email
+              Email *
               <input v-model="inputData.emailAddress" />
-            </label>
-          </div>
-          <div>
-            <label>
-              RP Name
-              <input v-model="inputData.relyingParty.name" />
-            </label>
-          </div>
-          <div>
-            <label>
-              RP ID
-              <input disabled v-model="inputData.relyingParty.id" />
-            </label>
-          </div>
-          <div>
-            <label>
-              Attestation
-              <select v-model="inputData.attestation">
-                <option value="none">
-                  none (No data obtained from device)
-                </option>
-                <option value="indirect">indirect (Generic certificate)</option>
-                <option value="direct">direct (All data)</option>
-              </select>
-            </label>
-          </div>
-          <div>
-            <label>
-              Attachment
-              <select v-model="inputData.attachment">
-                <option value="any">Any</option>
-                <option value="platform">Platform (e.g. TouchID)</option>
-                <option value="cross-platform">Cross-platform</option>
-              </select>
             </label>
           </div>
           <hr />
@@ -100,11 +66,11 @@ export default {
   components: {},
   data: () => ({
     inputData: {
-      username: "Luke Skywalker",
-      emailAddress: "luke.skywalker@alderaan.net",
+      username: "",
+      emailAddress: "",
       relyingParty: {
-        name: "Falcon Transportation Services",
-        id: "o985n2xwm5.csb.app",
+        name: "Webauthn Demo App",
+        id: "lorimay21.github.io/webauthn-demo-app",
       },
       attachment: "any",
       attestation: "none",
@@ -197,6 +163,7 @@ export default {
       };
 
       console.log({ publicKey });
+      console.log(JSON.stringify({ publicKey }));
 
       try {
         const assertion = await navigator.credentials.get({ publicKey });
