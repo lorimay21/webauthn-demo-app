@@ -12,15 +12,10 @@
 </template>
 
 <script>
-import SideNav from "@/components/SideNav";
-
 export default {
   created() {
     // Render top page
     this.$router.push({ name: "top" });
-  },
-  components: {
-    SideNav,
   },
   computed: {
     pageStack() {
