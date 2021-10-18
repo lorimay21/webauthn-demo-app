@@ -20,7 +20,7 @@
           </div>
           <hr />
           <button
-            v-if="inputData.username && inputData.emailAddress"
+            :disabled="inputData.username && inputData.emailAddress == false"
             @click="register"
           >
             Register
@@ -70,7 +70,7 @@ export default {
       emailAddress: "",
       relyingParty: {
         name: "Webauthn Demo App",
-        id: "lorimay21.github.io/webauthn-demo-app",
+        id: "https://lorimay21.github.io/webauthn-demo-app/",
       },
       attachment: "any",
       attestation: "none",
