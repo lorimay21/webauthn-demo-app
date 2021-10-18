@@ -1,30 +1,34 @@
 <template>
-    <v-ons-page>
-      <v-ons-toolbar>
-        <div class="center">{{ title }}</div>
-        <div class="right">
-          <v-ons-toolbar-button>
-            <v-ons-icon icon="ion-navicon, material: md-menu"></v-ons-icon>
-          </v-ons-toolbar-button>
-        </div>
-      </v-ons-toolbar>
-      <div style="text-align: center; padding-top:10px">Hello World!</div>
-      <p style="text-align: center">
-        <v-ons-button @click="alert">Click Me!</v-ons-button>
-      </p>
-    </v-ons-page>
+  <v-ons-splitter>
+    <v-ons-splitter-content>
+      <v-ons-navigator
+        swipeable
+        swipe-target-width="50px"
+        :page-stack="pageStack"
+        :options="navOptions"
+      ></v-ons-navigator>
+    </v-ons-splitter-content>
+  </v-ons-splitter>
 </template>
+
 <script>
-  export default{
-    data() {
-      return {
-        title: 'My app'
-      };
+import SideNav from "@/components/SideNav";
+
+export default {
+  created() {
+    // Render top page
+    this.$router.push({ name: "top" });
+  },
+  components: {
+    SideNav,
+  },
+  computed: {
+    pageStack() {
+      return this.$store.state.navigator.stack;
     },
-    methods: {
-      alert() {
-        this.$ons.notification.alert('This is an Onsen UI alert notification test.');
-      }
-    }
-  };
+    navOptions() {
+      return this.$store.state.navigator.options;
+    },
+  },
+};
 </script>
