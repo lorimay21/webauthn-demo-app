@@ -8,7 +8,7 @@ const path = require('path');
 const argvs = require('yargs').argv;
 const devMode = process.env.WEBPACK_SERVE || argvs.mode === 'development';
 
-const DEFAULT_PORT = 8081;
+const DEFAULT_PORT = 8085;
 const host = process.env.MONACA_SERVER_HOST || argvs.host || 'localhost';
 const port = argvs.port || DEFAULT_PORT;
 const wss = process.env.MONACA_TERMINAL ? true : false;
