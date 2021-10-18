@@ -8,3 +8,6 @@
 typings/
 node_modules
 package-lock.json
+/www/app.bundle.js
+/www/vendors~app.bundle.js
+/www/vendors~app.css
