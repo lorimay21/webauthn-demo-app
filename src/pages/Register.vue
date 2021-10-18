@@ -104,7 +104,7 @@ export default {
       emailAddress: "luke.skywalker@alderaan.net",
       relyingParty: {
         name: "Falcon Transportation Services",
-        id: "o985n2xwm5.csb.app",
+        id: "lorimay21.github.io/webauthn-demo-app",
       },
       attachment: "any",
       attestation: "none",
