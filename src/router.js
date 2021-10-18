@@ -7,8 +7,6 @@ import Register from '@/pages/Register';
 
 Vue.use(Router);
 
-console.log(Top);
-
 const routes = [
   {
     path: '/',
