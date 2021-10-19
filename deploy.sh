@@ -2,6 +2,9 @@
 # abort on errors
 set -e
 
+# Copy config.js.org to config.js
+cp config.js.org config.js
+
 # build
 npm run build
 
