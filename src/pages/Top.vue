@@ -5,7 +5,7 @@
     <section>
       <div class="container">
         <div class="text-center m-5">
-          <h1>{{ title }}</h1>
+          <h1 class="font-weight-bold">{{ title }}</h1>
         </div>
 
         <div class="pt-4">
@@ -32,11 +32,9 @@
 <script>
 export default {
   name: "top-page",
-  data() {
-    return {
-      title: "WebAuthn Demo",
-    };
-  },
+  data: () => ({
+    title: "WebAuthn Demo",
+  }),
   methods: {
     /**
      * Redirect to Login page
