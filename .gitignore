@@ -9,5 +9,9 @@ typings/
 node_modules
 package-lock.json
 /www/app.bundle.js
+/www/app.css
+/www/index.html
 /www/vendors~app.bundle.js
 /www/vendors~app.css
+/www/app.css
+/src/config.js
