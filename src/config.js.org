@@ -1,0 +1,24 @@
+/***********************************
+ * Application configuration
+ **********************************/
+let config = {
+    env: 'stg',           // env mode
+};
+
+switch (config.env) {
+    case 'dev':
+        config.domain = 'localhost'; // Your local domain
+        break;
+    case 'stg':
+        config.domain = 'lorimay21.github.io'; // Staging domain
+        break;
+    case 'prod':
+        config.domain = ''; // Client production domain
+        break;
+    default:
+        config.domain = 'localhost'; // Your local domain
+        break;
+}
+
+// import config from '@/config.js'; // To use import this file
+export default config;
