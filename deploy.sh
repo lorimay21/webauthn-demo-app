@@ -3,7 +3,7 @@
 set -e
 
 # Copy config.js.org to config.js
-cp config.js.org config.js
+cp ./src/config.js.org ./src/config.js
 
 # build
 npm run build
