@@ -2,6 +2,7 @@
  * Application configuration
  **********************************/
 let config = {
+    app_name: "Webauthn Demo App",
     env: 'stg',           // env mode
 };
 
