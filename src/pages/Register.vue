@@ -48,20 +48,6 @@
             </b-button>
           </div>
         </div>
-
-        <!-- <div class="output">
-          <pre v-if="formattedUserDetails">
-            <code>{{ formattedUserDetails }}</code>
-          </pre>
-          <pre v-if="formattedSavedCred">
-            <span>// send this to server to verify and enroll the key</span>
-            <code>{{ formattedSavedCred }}</code>
-          </pre>
-          <pre v-if="formattedAssertion">
-            <span>// send this to server to verify a sign-in</span>
-            <code>{{ formattedAssertion }}</code>
-          </pre>
-        </div> -->
       </div>
     </section>
   </v-ons-page>
@@ -71,13 +57,8 @@
 import config from "@/config.js";
 import formRequests from "@/plugins/FormRequests";
 import * as defaults from "@/plugins/Defaults";
-import {
-  generateId,
-  generateChallenge,
-  ab2b64,
-  encodeCredential,
-  encodeAssertion,
-} from "@/plugins/Helpers";
+import { CredentialService } from "@/service/CredentialService";
+import { generateId, generateChallenge } from "@/plugins/Helpers";
 
 export default {
   name: "register-page",
@@ -89,36 +70,17 @@ export default {
       emailAddress: "",
     },
     relyingParty: {
-      name: "Webauthn Demo App",
+      name: config.app_name,
       id: config.domain,
     },
     attachment: "any",
     attestation: "none",
-    userDetails: null,
-    savedCred: null,
     assertion: null,
     errors: {
       name: "",
       emailAddress: "",
     },
   }),
-  computed: {
-    // formattedUserDetails() {
-    //   if (!this.userDetails) return null;
-    //   return {
-    //     ...this.userDetails,
-    //     id: ab2b64(this.userDetails.id),
-    //   };
-    // },
-    // formattedSavedCred() {
-    //   if (!this.savedCred) return null;
-    //   return encodeCredential(this.savedCred);
-    // },
-    // formattedAssertion() {
-    //   if (!this.assertion) return null;
-    //   return encodeAssertion(this.assertion);
-    // },
-  },
   methods: {
     /**
      * Register new user
@@ -162,14 +124,38 @@ export default {
         console.log({ publicKey });
         console.log(JSON.stringify({ publicKey }));
 
-        // Register new user
+        // Create creedentials
         const cred = await navigator.credentials.create({ publicKey });
 
-        // Set credentials
-        this.savedCred = cred;
-        this.userDetails = publicKey.user;
+        console.log("Register");
+        console.log(cred);
+        console.log(JSON.stringify(cred));
 
-        console.log(`Credential obtained`, this.savedCred);
+        // Register user in database
+        new CredentialService()
+          .insertRecords([
+            {
+              rp_id: this.relyingParty.id,
+              rp_name: this.relyingParty.name,
+              name: this.inputData.name,
+              email_address: this.inputData.emailAddress,
+              raw_id: cred.rawId,
+            },
+          ])
+          .catch((error) => {
+            console.error(error.message);
+          })
+          .finally(() => {
+            // // Display toast notification
+            // this.$ons.notification.toast("Successfully registered user", {
+            //   timeout: 3000,
+            //   animation: "fall",
+            // });
+
+            console.log("finalllyyyy");
+
+            this.$router.push({ name: "top" });
+          });
       } catch (error) {
         console.error(error.message);
       }
