@@ -64,22 +64,22 @@ export default {
      * Authenticate a registered user
      */
     authenticate() {
+      let self = this;
+     
       // Validate inputs
-      let [hasError, errors] = formRequests.validateLoginForm(this.inputData);
+      let [hasError, errors] = formRequests.validateLoginForm(self.inputData);
 
       // Clear form
-      this.clearForm();
-
-      console.log(errors);
+      self.clearForm();
 
       // Render validation errors
       if (hasError) {
-        return (this.errors = errors);
+        return (self.errors = errors);
       }
 
       // Fetch login information using email address
       new CredentialService()
-        .getRecord({ email_address: this.inputData.emailAddress })
+        .getRecord({ email_address: self.inputData.emailAddress })
         .then(async (credentials) => {
           if (credentials !== null) {
             const publicKey = {
@@ -114,7 +114,7 @@ export default {
               console.error(error.message);
             }
           } else {
-            this.errors.emailAddress = "Authentication failed";
+            self.errors.emailAddress = "Authentication failed";
           }
         });
     },
