@@ -131,6 +131,8 @@ export default {
         console.log(cred);
         console.log(JSON.stringify(cred));
 
+        console.log(cred.rawId);
+
         // Register user in database
         new CredentialService()
           .insertRecords([
