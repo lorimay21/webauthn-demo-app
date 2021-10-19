@@ -1,3 +1,5 @@
+/** Defaults JS file */
+
 export const pubKeyCredParams = [
 	{
 		type: 'public-key',

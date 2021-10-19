@@ -1,3 +1,5 @@
+/** Helpers JS file */
+
 import CBOR from "cbor";
 
 export function ab2str(buf) {
