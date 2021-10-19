@@ -23,7 +23,7 @@ const getDatabase = () => {
                 dataType: DATA_TYPE.String,
             },
             raw_id: {
-                dataType: DATA_TYPE.String,
+                dataType: DATA_TYPE.Number,
             },
             created: {
                 dataType: DATA_TYPE.DateTime,
