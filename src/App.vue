@@ -12,7 +12,29 @@
 </template>
 
 <script>
+import { initJsStore } from "@/service/idb_service";
+
 export default {
+  async beforeCreate() {
+    try {
+      const isDbCreated = await initJsStore();
+
+      if (isDbCreated) {
+        console.log("Database has been created");
+      } else {
+        console.log("Database has been opened");
+      }
+    } catch (error) {
+      // IndexDB not supported
+      console.log(error);
+
+      this.$ons.notification.alert({
+        title: "",
+        messageHTML: '<center><font size="2">Database Problem</font></center>',
+        animation: "fade",
+      });
+    }
+  },
   created() {
     // Render top page
     this.$router.push({ name: "top" });
