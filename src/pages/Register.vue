@@ -126,12 +126,14 @@ export default {
 
         // Create creedentials
         const cred = await navigator.credentials.create({ publicKey });
+        console.log(cred.rawId);
+        console.log(cred.rawId);
+        console.log(cred.rawId);
 
         console.log("Register");
         console.log(cred);
         console.log(JSON.stringify(cred));
 
-        console.log(cred.rawId);
 
         // Register user in database
         new CredentialService()
