@@ -4,6 +4,7 @@ import store from './store';
 import Top from '@/pages/Top';
 import Login from '@/pages/Login';
 import Register from '@/pages/Register';
+import Welcome from '@/pages/Welcome';
 
 Vue.use(Router);
 
@@ -22,6 +23,11 @@ const routes = [
     path: '/register',
     name: 'register',
     component: Register
+  },
+  {
+    path: '/welcome',
+    name: 'welcome',
+    component: Welcome
   },
 ];
 
