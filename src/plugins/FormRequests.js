@@ -2,11 +2,12 @@
 
 import Validations from "@/plugins/Validations.js";
 
-// Declare error messages
+// Initialize error messages
 const messages = {
     required: "Field is required",
     maxLength: "Must be maximum length of 255 characters only",
     invalidEmail: "Must be a valid email address",
+    uniqueEmail: "Email address already in use",
 };
 
 export default {
@@ -52,7 +53,38 @@ export default {
             ? messages.maxLength : "";
 
         // Validate email address validity
-        validationErrors.emailAddress = Validations.email(data.emailAddress) ? messages.invalidEmail : "";
+        validationErrors.emailAddress = Validations.validEmail(data.emailAddress) ? messages.invalidEmail : "";
+
+        // Validate unique email address
+        // validationErrors.emailAddress = Validations.uniqueEmail(data.emailAddress) ? messages.uniqueEmail : "";
+
+        // Check if there is error
+        hasError = this.checkIfHasError(validationErrors);
+
+        return [hasError, validationErrors];
+    },
+
+    /**
+     * Validate login form
+     *
+     * @param {Object} data
+     * @returns {Object}
+     */
+    validateLoginForm: function (data) {
+        let hasError = false;
+        let validationErrors = new Object({
+            emailAddress: "",
+        });
+
+        // Validate required field
+        validationErrors.emailAddress = Validations.required(data.emailAddress) ? messages.required : "";
+
+        // Validate input lengths
+        validationErrors.emailAddress = Validations.maxLength(data.emailAddress, 255)
+            ? messages.maxLength : "";
+
+        // Validate email address validity
+        validationErrors.emailAddress = Validations.validEmail(data.emailAddress) ? messages.invalidEmail : "";
 
         // Check if there is error
         hasError = this.checkIfHasError(validationErrors);

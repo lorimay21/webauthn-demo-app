@@ -1,5 +1,7 @@
 /** Validations JS file */
 
+import { CredentialService } from "@/service/CredentialService";
+
 export default {
     /**
      * Validate required field.
@@ -60,13 +62,13 @@ export default {
     },
 
     /**
-     * Validate email address.
+     * Validate if valid email address.
      *
      * @param {String|Number} data - Input data.
      * @param {Boolean} notNullable - If field is nullable. Defaults to true.
      * @returns {Boolean}
      */
-    email: function (data, notNullable = true) {
+    validEmail: function (data, notNullable = true) {
         const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
         if (!notNullable && this.required(data)) {
@@ -74,5 +76,38 @@ export default {
         }
 
         return !regex.test(String(data).toLowerCase());
-    }
+    },
+
+    /**
+     * Validate if unique email address.
+     *
+     * @param {String|Number} data - Input data.
+     * @param {Boolean} notNullable - If field is nullable. Defaults to true.
+     * @returns {Boolean}
+     */
+    uniqueEmail: function (data, notNullable = true) {
+        let isUnique = false;
+
+        if (!notNullable && this.required(data)) {
+            return false;
+        }
+
+        console.log(data);
+
+        // Check if email address is already used
+        new CredentialService()
+            .getRecord({ email_address: data })
+            .then((response) => {
+                console.log(response);
+                if (response !== null) {
+                    isUnique = true;
+                }
+            })
+            .finally(() => {
+                console.log('hereeee');
+                console.log(isUnique);
+
+                return isUnique;
+            });
+    },
 }
