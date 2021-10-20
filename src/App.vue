@@ -327,10 +327,10 @@ export default {
               rp_name: this.relyingParty.name,
               name: this.registerInputData.name,
               email_address: this.registerInputData.emailAddress,
-              credential_id: credentials.id,
+              // credential_id: credentials.id,
               credential_raw_id: credentials.rawId,
-              credential_type: credentials.type,
-              credential_response: credentials.response,
+              // credential_type: credentials.type,
+              // credential_response: credentials.response,
             },
           ])
           .catch((error) => {
