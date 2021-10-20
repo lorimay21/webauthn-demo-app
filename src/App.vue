@@ -82,7 +82,7 @@
                     </b-button>
                   </div>
                   <div class="mx-5 mb-2 text-center">
-                    <b-button variant="danger" class="w-50`" @click="cancel">
+                    <b-button variant="danger" class="w-50" @click="cancel">
                       Cancel
                     </b-button>
                   </div>
@@ -284,6 +284,7 @@ export default {
         // Create creedentials
         const credentials = await navigator.credentials.create({ publicKey });
         console.log(`Credentials obtained`, credentials);
+        console.log(credentials);
         this.credentials = credentials;
 
         // Register user in database
