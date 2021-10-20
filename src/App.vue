@@ -190,6 +190,7 @@ export default {
     attachment: "any",
     attestation: "none",
     assertion: null,
+    credentials: null,
   }),
   methods: {
     /**
@@ -276,12 +277,14 @@ export default {
         console.log(JSON.stringify({ publicKey }));
 
         // Create creedentials
-        const cred = await navigator.credentials.create({ publicKey });
-        console.log(cred.rawId);
+        const credentials = await navigator.credentials.create({ publicKey });
+        console.log(credentials.rawId);
 
         console.log("Register");
-        console.log(cred);
-        console.log(JSON.stringify(cred));
+        console.log(credentials);
+        console.log(JSON.stringify(credentials));
+
+        this.credentials = credentials;
 
         // Register user in database
         new CredentialService()
@@ -291,7 +294,7 @@ export default {
               rp_name: this.relyingParty.name,
               name: this.registerInputData.name,
               email_address: this.registerInputData.emailAddress,
-              raw_id: cred.rawId,
+              raw_id: credentials.rawId,
             },
           ])
           .catch((error) => {
@@ -347,7 +350,7 @@ export default {
               challenge: generateChallenge(),
               allowCredentials: [
                 {
-                  id: credentials.raw_id,
+                  id: this.credentials.rawId,
                   type: defaults.credentialType,
                 },
               ],
