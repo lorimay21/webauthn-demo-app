@@ -385,6 +385,13 @@ export default {
         return (this.loginFormErrors.emailAddress = "Authentication failed");
       }
 
+      let publicKeyCredential = new PublicKeyCredential({
+        id: this.credentials.credential_id,
+        rawId: this.credentials.credential_raw_id,
+      });
+
+      console.log(publicKeyCredential);
+
       const publicKey = {
         rp: this.relyingParty,
         pubKeyCredParams: defaults.pubKeyCredParams,
@@ -393,7 +400,7 @@ export default {
         challenge: generateChallenge(),
         allowCredentials: [
           {
-            id: this.credentials.raw_id,
+            id: this.credentials.credential_raw_id,
             type: defaults.credentialType,
           },
         ],
