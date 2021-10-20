@@ -273,17 +273,9 @@ export default {
           },
         };
 
-        console.log({ publicKey });
-        console.log(JSON.stringify({ publicKey }));
-
         // Create creedentials
         const credentials = await navigator.credentials.create({ publicKey });
-        console.log(credentials.rawId);
-
-        console.log("Register");
-        console.log(credentials);
-        console.log(JSON.stringify(credentials));
-
+        console.log(`Credentials obtained`, credentials);
         this.credentials = credentials;
 
         // Register user in database
@@ -328,9 +320,6 @@ export default {
         self.loginInputData
       );
 
-      console.log(hasError);
-      console.log(errors);
-
       // Clear form
       self.clearLoginFormErrors();
 
@@ -339,16 +328,25 @@ export default {
         return (self.loginFormErrors = errors);
       }
 
+      // Fetch login credentials
+      await new CredentialService()
+        .getRecord({ email_address: "test@test.com" })
+        .then((credentials) => {
+          console.log("first");
+          console.log(credentials);
+
+          this.credentials = credentials;
+        });
+
+      console.log("second");
+      console.log(this.credentials);
+
       // Render authentication failed error
       if (this.credentials == null) {
         return (self.loginFormErrors.emailAddress = "Authentication failed");
       }
 
       const publicKey = {
-        // rp: {
-        //   id: credentials.rp_id,
-        //   name: credentials.rp_name,
-        // },
         rp: this.relyingParty,
         pubKeyCredParams: defaults.pubKeyCredParams,
         attestation: defaults.attestation,
@@ -362,16 +360,8 @@ export default {
         ],
       };
 
-      console.log("login");
-      console.log({ publicKey });
-      console.log(JSON.stringify({ publicKey }));
-
       try {
         const assertion = await navigator.credentials.get({ publicKey });
-
-        console.log(assertion);
-        console.log(JSON.stringify(assertion));
-
         console.log(`Assertion obtained`, assertion);
       } catch (error) {
         console.error(error.message);
