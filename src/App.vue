@@ -335,15 +335,16 @@ export default {
       }
 
       // Fetch login information using email address
-      new CredentialService()
-        .getRecord({ email_address: self.inputData.emailAddress })
-        .then(async (credentials) => {
-          if (credentials !== null) {
+      // new CredentialService()
+      //   .getRecord({ email_address: self.inputData.emailAddress })
+      //   .then(async (credentials) => {
+          if (this.credentials !== null) {
             const publicKey = {
-              rp: {
-                id: credentials.rp_id,
-                name: credentials.rp_name,
-              },
+              // rp: {
+              //   id: credentials.rp_id,
+              //   name: credentials.rp_name,
+              // },
+              rp: this.relyingParty,
               pubKeyCredParams: defaults.pubKeyCredParams,
               attestation: defaults.attestation,
               timeout: 60 * 1000,
@@ -373,7 +374,7 @@ export default {
           } else {
             self.loginFormErrors.emailAddress = "Authentication failed";
           }
-        });
+        // });
     },
 
     /**
