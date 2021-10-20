@@ -191,10 +191,10 @@ export default {
   components: {},
   data: () => ({
     title: "WebAuthn Demo",
-    isTopPage: false,
+    isTopPage: true,
     isRegistrationPage: false,
     isLoginPage: false,
-    isWelcomePage: true,
+    isWelcomePage: false,
     registerInputData: {
       name: "",
       emailAddress: "",
