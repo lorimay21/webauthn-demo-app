@@ -22,17 +22,14 @@ const getDatabase = () => {
             email_address: {
                 dataType: DATA_TYPE.String,
             },
-            // credential_id: {
-            //     dataType: DATA_TYPE.String,
-            // },
+            credential_id: {
+                dataType: DATA_TYPE.String,
+            },
             credential_raw_id: {
                 dataType: DATA_TYPE.Object,
             },
-            // credential_type: {
-            //     dataType: DATA_TYPE.String,
-            // },
-            credential_response: {
-                dataType: DATA_TYPE.Object,
+            credential_type: {
+                dataType: DATA_TYPE.String,
             },
             created: {
                 dataType: DATA_TYPE.DateTime,
