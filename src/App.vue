@@ -244,7 +244,7 @@ export default {
       );
 
       // Clear form
-      this.clearRegisterForm();
+      this.clearRegisterFormErrors();
 
       // Render validation errors
       if (hasError) {
@@ -327,7 +327,7 @@ export default {
       let [hasError, errors] = formRequests.validateLoginForm(self.inputData);
 
       // Clear form
-      self.clearLoginForm();
+      self.clearLoginFormErrors();
 
       // Render validation errors
       if (hasError) {
