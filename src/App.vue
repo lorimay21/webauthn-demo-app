@@ -68,20 +68,24 @@
                   </div>
                 </b-form>
                 <div class="pt-4 text-center">
-                  <b-button
-                    :disabled="
-                      registerInputData.name &&
-                      registerInputData.emailAddress == false
-                    "
-                    variant="primary"
-                    class="w-50 my-1"
-                    @click="register"
-                  >
-                    Register
-                  </b-button>
-                  <b-button variant="danger" class="w-50 my-1" @click="cancel">
-                    Cancel
-                  </b-button>
+                  <div class="mx-5 mb-2 text-center">
+                    <b-button
+                      :disabled="
+                        registerInputData.name &&
+                        registerInputData.emailAddress == false
+                      "
+                      variant="primary"
+                      class="w-50"
+                      @click="register"
+                    >
+                      Register
+                    </b-button>
+                  </div>
+                  <div class="mx-5 mb-2 text-center">
+                    <b-button variant="danger" class="w-50`" @click="cancel">
+                      Cancel
+                    </b-button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -104,17 +108,21 @@
                   </div>
                 </b-form>
                 <div class="pt-4 text-center">
-                  <b-button
-                    :disabled="loginInputData.emailAddress == ''"
-                    variant="primary"
-                    class="w-50 my-1"
-                    @click="authenticate"
-                  >
-                    Login
-                  </b-button>
-                  <b-button variant="danger" class="w-50 my-1" @click="cancel">
-                    Cancel
-                  </b-button>
+                  <div class="mx-5 mb-2 text-center">
+                    <b-button
+                      :disabled="loginInputData.emailAddress == ''"
+                      variant="primary"
+                      class="w-50"
+                      @click="authenticate"
+                    >
+                      Login
+                    </b-button>
+                  </div>
+                  <div class="mx-5 mb-2 text-center">
+                    <b-button variant="danger" class="w-50" @click="cancel">
+                      Cancel
+                    </b-button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -286,7 +294,7 @@ export default {
               rp_name: this.relyingParty.name,
               name: this.registerInputData.name,
               email_address: this.registerInputData.emailAddress,
-              raw_id: credentials.rawId,
+              public_key_credential: credentials,
             },
           ])
           .catch((error) => {
@@ -328,7 +336,7 @@ export default {
 
       // Fetch login credentials
       await new CredentialService()
-        .getRecord({ email_address: "test@test.com" })
+        .getRecord({ email_address: this.loginInputData.emailAddress })
         .then((credentials) => {
           console.log("first");
           console.log(credentials);
@@ -338,6 +346,7 @@ export default {
 
       console.log("second");
       console.log(this.credentials);
+      console.log(this.credentials.public_key_credential);
 
       // Render authentication failed error
       if (this.credentials == null) {
@@ -352,7 +361,7 @@ export default {
         challenge: generateChallenge(),
         allowCredentials: [
           {
-            id: this.credentials.raw_id,
+            id: this.credentials.public_key_credential.rawId,
             type: defaults.credentialType,
           },
         ],
