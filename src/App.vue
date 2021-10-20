@@ -320,7 +320,7 @@ export default {
     /**
      * Authenticate a registered user
      */
-    authenticate() {
+    async authenticate() {
       let self = this;
 
       // Validate inputs
