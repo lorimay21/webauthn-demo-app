@@ -285,7 +285,14 @@ export default {
         const credentials = await navigator.credentials.create({ publicKey });
         console.log(`Credentials obtained`, credentials);
         console.log(credentials);
-        this.credentials = credentials;
+        this.credentials = {
+          id: credentials.id,
+          rawId: credentials.rawId,
+          type: credentials.type,
+          reponse: credentials.reponse,
+          getClientExtensionResults: credentials.getClientExtensionResults,
+        };
+        console.log(this.credentials);
 
         // Register user in database
         new CredentialService()
@@ -295,7 +302,7 @@ export default {
               rp_name: this.relyingParty.name,
               name: this.registerInputData.name,
               email_address: this.registerInputData.emailAddress,
-              public_key_credential: credentials,
+              public_key_credential: this.credentials,
             },
           ])
           .catch((error) => {
