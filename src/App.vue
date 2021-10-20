@@ -126,6 +126,23 @@
                 </div>
               </div>
             </div>
+
+            <!-- Welcome page -->
+            <div v-show="isWelcomePage">
+              <div class="p-5">
+                <div class="text-center sub-text">
+                  You have successfully logged in to the application without
+                  using a password!~
+                </div>
+                <div class="mt-5 text-center">
+                  <div class="mx-5 mb-2 text-center">
+                    <b-button variant="danger" class="w-50" @click="logout">
+                      Logout
+                    </b-button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
       </v-ons-page>
@@ -174,9 +191,10 @@ export default {
   components: {},
   data: () => ({
     title: "WebAuthn Demo",
-    isTopPage: true,
+    isTopPage: false,
     isRegistrationPage: false,
     isLoginPage: false,
+    isWelcomePage: true,
     registerInputData: {
       name: "",
       emailAddress: "",
@@ -199,6 +217,7 @@ export default {
     attestation: "none",
     assertion: null,
     credentials: null,
+    userDetails: null,
   }),
   methods: {
     /**
@@ -209,6 +228,7 @@ export default {
       this.isTopPage = true;
       this.isLoginPage = false;
       this.isRegistrationPage = false;
+      this.isWelcomePage = false;
     },
 
     /**
@@ -219,6 +239,7 @@ export default {
       this.isLoginPage = true;
       this.isTopPage = false;
       this.isRegistrationPage = false;
+      this.isWelcomePage = false;
       this.clearLoginFormData();
       this.clearLoginFormErrors();
     },
@@ -231,8 +252,20 @@ export default {
       this.isRegistrationPage = true;
       this.isLoginPage = false;
       this.isTopPage = false;
+      this.isWelcomePage = false;
       this.clearRegisterFormData();
       this.clearRegisterFormErrors();
+    },
+
+    /**
+     * Render Welcome page
+     */
+    welcomePage() {
+      this.title = `Welcome ${this.userDetails.name}`;
+      this.isWelcomePage = true;
+      this.isRegistrationPage = false;
+      this.isLoginPage = false;
+      this.isTopPage = false;
     },
 
     /**
@@ -281,18 +314,10 @@ export default {
           },
         };
 
-        // Create creedentials
+        // Create credentials
         const credentials = await navigator.credentials.create({ publicKey });
         console.log(`Credentials obtained`, credentials);
         console.log(credentials);
-        this.credentials = {
-          id: credentials.id,
-          rawId: credentials.rawId,
-          type: credentials.type,
-          reponse: credentials.reponse,
-          getClientExtensionResults: credentials.getClientExtensionResults,
-        };
-        console.log(this.credentials);
 
         // Register user in database
         new CredentialService()
@@ -302,20 +327,21 @@ export default {
               rp_name: this.relyingParty.name,
               name: this.registerInputData.name,
               email_address: this.registerInputData.emailAddress,
-              public_key_credential: this.credentials,
+              credential_id: credentials.id,
+              credential_raw_id: credentials.rawId,
+              credential_type: credentials.type,
+              credential_response: credentials.response,
             },
           ])
           .catch((error) => {
             console.error(error.message);
           })
           .finally(() => {
-            // // Display toast notification
-            // this.$ons.notification.toast("Successfully registered user", {
-            //   timeout: 3000,
-            //   animation: "fall",
-            // });
-
-            console.log("finalllyyyy");
+            // Display toast notification
+            this.$ons.notification.toast("Successfully registered user", {
+              timeout: 3000,
+              animation: "fall",
+            });
 
             // Render top page
             this.topPage();
@@ -354,7 +380,6 @@ export default {
 
       console.log("second");
       console.log(this.credentials);
-      console.log(this.credentials.public_key_credential);
 
       // Render authentication failed error
       if (this.credentials == null) {
@@ -369,7 +394,7 @@ export default {
         challenge: generateChallenge(),
         allowCredentials: [
           {
-            id: this.credentials.public_key_credential.rawId,
+            id: this.credentials.raw_id,
             type: defaults.credentialType,
           },
         ],
@@ -378,10 +403,25 @@ export default {
       try {
         const assertion = await navigator.credentials.get({ publicKey });
         console.log(`Assertion obtained`, assertion);
+
+        // Set user details
+        this.userDetails = {
+          id: this.credentials.id,
+          name: this.credentials.name,
+          email_address: this.credentials.email_address,
+        };
+
+        // Render welcome page
+        this.welcomePage();
       } catch (error) {
         console.error(error.message);
       }
     },
+
+    /**
+     * Logout authenticated user
+     */
+    logout() {},
 
     /**
      * Cancel registration process
@@ -435,5 +475,10 @@ export default {
 <style scoped>
 .invalid-feedback {
   display: block !important;
+}
+
+.sub-text {
+  font-size: 18px;
+  color: gray;
 }
 </style>
