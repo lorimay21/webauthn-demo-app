@@ -324,7 +324,9 @@ export default {
       let self = this;
 
       // Validate inputs
-      let [hasError, errors] = formRequests.validateLoginForm(self.inputData);
+      let [hasError, errors] = formRequests.validateLoginForm(
+        self.loginInputData
+      );
 
       // Clear form
       self.clearLoginFormErrors();
