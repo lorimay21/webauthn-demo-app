@@ -31,9 +31,9 @@ const getDatabase = () => {
             // credential_type: {
             //     dataType: DATA_TYPE.String,
             // },
-            // credential_response: {
-            //     dataType: DATA_TYPE.Object,
-            // },
+            credential_response: {
+                dataType: DATA_TYPE.Object,
+            },
             created: {
                 dataType: DATA_TYPE.DateTime,
                 default: new Date(),
