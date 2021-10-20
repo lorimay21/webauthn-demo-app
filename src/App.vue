@@ -313,19 +313,17 @@ export default {
      * Authenticate a registered user
      */
     async authenticate() {
-      let self = this;
-
       // Validate inputs
       let [hasError, errors] = formRequests.validateLoginForm(
-        self.loginInputData
+        this.loginInputData
       );
 
       // Clear form
-      self.clearLoginFormErrors();
+      this.clearLoginFormErrors();
 
       // Render validation errors
       if (hasError) {
-        return (self.loginFormErrors = errors);
+        return (this.loginFormErrors = errors);
       }
 
       // Fetch login credentials
@@ -343,7 +341,7 @@ export default {
 
       // Render authentication failed error
       if (this.credentials == null) {
-        return (self.loginFormErrors.emailAddress = "Authentication failed");
+        return (this.loginFormErrors.emailAddress = "Authentication failed");
       }
 
       const publicKey = {
@@ -354,7 +352,7 @@ export default {
         challenge: generateChallenge(),
         allowCredentials: [
           {
-            id: this.credentials.rawId,
+            id: this.credentials.raw_id,
             type: defaults.credentialType,
           },
         ],
