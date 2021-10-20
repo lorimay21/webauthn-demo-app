@@ -22,7 +22,7 @@ const getDatabase = () => {
             email_address: {
                 dataType: DATA_TYPE.String,
             },
-            raw_id: {
+            public_key_credential: {
                 dataType: DATA_TYPE.Object,
             },
             created: {
