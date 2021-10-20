@@ -328,6 +328,9 @@ export default {
         self.loginInputData
       );
 
+      console.log(hasError);
+      console.log(errors);
+
       // Clear form
       self.clearLoginFormErrors();
 
@@ -336,47 +339,43 @@ export default {
         return (self.loginFormErrors = errors);
       }
 
-      // Fetch login information using email address
-      // new CredentialService()
-      //   .getRecord({ email_address: self.inputData.emailAddress })
-      //   .then(async (credentials) => {
-          if (this.credentials !== null) {
-            const publicKey = {
-              // rp: {
-              //   id: credentials.rp_id,
-              //   name: credentials.rp_name,
-              // },
-              rp: this.relyingParty,
-              pubKeyCredParams: defaults.pubKeyCredParams,
-              attestation: defaults.attestation,
-              timeout: 60 * 1000,
-              challenge: generateChallenge(),
-              allowCredentials: [
-                {
-                  id: this.credentials.rawId,
-                  type: defaults.credentialType,
-                },
-              ],
-            };
+      // Render authentication failed error
+      if (this.credentials == null) {
+        return (self.loginFormErrors.emailAddress = "Authentication failed");
+      }
 
-            console.log("login");
-            console.log({ publicKey });
-            console.log(JSON.stringify({ publicKey }));
+      const publicKey = {
+        // rp: {
+        //   id: credentials.rp_id,
+        //   name: credentials.rp_name,
+        // },
+        rp: this.relyingParty,
+        pubKeyCredParams: defaults.pubKeyCredParams,
+        attestation: defaults.attestation,
+        timeout: 60 * 1000,
+        challenge: generateChallenge(),
+        allowCredentials: [
+          {
+            id: this.credentials.rawId,
+            type: defaults.credentialType,
+          },
+        ],
+      };
 
-            try {
-              const assertion = await navigator.credentials.get({ publicKey });
+      console.log("login");
+      console.log({ publicKey });
+      console.log(JSON.stringify({ publicKey }));
 
-              console.log(assertion);
-              console.log(JSON.stringify(assertion));
+      try {
+        const assertion = await navigator.credentials.get({ publicKey });
 
-              console.log(`Assertion obtained`, assertion);
-            } catch (error) {
-              console.error(error.message);
-            }
-          } else {
-            self.loginFormErrors.emailAddress = "Authentication failed";
-          }
-        // });
+        console.log(assertion);
+        console.log(JSON.stringify(assertion));
+
+        console.log(`Assertion obtained`, assertion);
+      } catch (error) {
+        console.error(error.message);
+      }
     },
 
     /**
